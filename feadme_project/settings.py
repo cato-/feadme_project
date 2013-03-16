@@ -95,6 +95,7 @@ TEMPLATE_LOADERS = (
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
+    'django.core.context_processors.static',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -194,6 +195,9 @@ DEFAULT_FROM_EMAIL = 'noreply@fead.me'
 
 # registration
 ACCOUNT_ACTIVATION_DAYS = 7
+
+if DEBUG:
+    STATIC_URL = "/static/"
 
 # try to load override settings from local_settings.py
 try:
