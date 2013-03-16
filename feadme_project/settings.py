@@ -105,10 +105,15 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_hosts.middleware.HostsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'feadme_project.urls'
+
+ROOT_HOSTCONF = 'feadme_project.hosts'
+
+DEFAULT_HOST = 'www'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'feadme_project.wsgi.application'
@@ -135,6 +140,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'endless_pagination',
     'jquery',
+    'django_hosts',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
@@ -184,7 +190,7 @@ LOGGING = {
 
 # try to load override settings from local_settings.py
 try:
-    from local_settings import *
+    from feadme_project.local_settings import *
 except ImportError:
     pass
     #print "no local_settings found"
