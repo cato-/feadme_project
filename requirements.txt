@@ -1,10 +1,12 @@
 django==1.5
 south==0.7.6
 feedparser==5.1.3
--e git://github.com/cato-/django-feedjack.git#egg=django-feedjack
+django-registration==0.8
 BeautifulSoup==3.2.1
 Django==1.5
 django-debug-toolbar==0.9.4
 django-endless-pagination==2.0
 django-jquery==1.9.1
 django-hosts==0.5
+-e git://github.com/cato-/django-feedjack.git#egg=django-feedjack
+-e git+git@github.com:cato-/django-feadme.git#egg=django-feadme

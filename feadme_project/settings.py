@@ -135,12 +135,14 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'feedjack',
     'south',
+    'registration',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'debug_toolbar',
     'endless_pagination',
     'jquery',
     'django_hosts',
+    'feadme',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
@@ -187,6 +189,11 @@ LOGGING = {
         },
     }
 }
+
+DEFAULT_FROM_EMAIL = 'noreply@fead.me'
+
+# registration
+ACCOUNT_ACTIVATION_DAYS = 7
 
 # try to load override settings from local_settings.py
 try:

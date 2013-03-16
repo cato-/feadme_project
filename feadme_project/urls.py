@@ -6,8 +6,11 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
+    url(r'^$', include('feedjack.urls'), name='home'),
 
-    url(r'^accounts/', include('django.contrib.auth.urls'), name='accounts'),
+    url(r'^accounts/', include('feadme.registration_urls')),
+    #url(r'^accounts/$', include('django.contrib.auth.urls'), name='accounts'),
+
     # url(r'^feadme_project/', include('feadme_project.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
