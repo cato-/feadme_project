@@ -1,0 +1,4 @@
+django==1.5
+south==0.7.6
+feedparser==5.1.3
+-e git://github.com/cato-/django-feedjack.git#egg=django-feedjack
