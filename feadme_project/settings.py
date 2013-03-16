@@ -156,3 +156,10 @@ LOGGING = {
         },
     }
 }
+
+# try to load override settings from local_settings.py
+try:
+    from local_settings import *
+except ImportError:
+    pass
+    #print "no local_settings found"
