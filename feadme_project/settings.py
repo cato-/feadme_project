@@ -196,6 +196,9 @@ DEFAULT_FROM_EMAIL = 'noreply@fead.me'
 # registration
 ACCOUNT_ACTIVATION_DAYS = 7
 
+# django-hosts
+HOST_SCHEME = "https://"
+
 if DEBUG:
     STATIC_URL = "/static/"
 
