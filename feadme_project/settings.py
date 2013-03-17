@@ -126,6 +126,9 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'feadme',
+    'feedjack',
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -134,7 +137,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    'feedjack',
     'south',
     'registration',
     # Uncomment the next line to enable admin documentation:
@@ -143,7 +145,6 @@ INSTALLED_APPS = (
     'endless_pagination',
     'jquery',
     'django_hosts',
-    'feadme',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
