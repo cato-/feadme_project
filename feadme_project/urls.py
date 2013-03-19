@@ -8,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^accounts/', include('feadme.registration_urls')),
+    url(r'^', include('feadme.urls')),
     #url(r'^accounts/$', include('django.contrib.auth.urls'), name='accounts'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
