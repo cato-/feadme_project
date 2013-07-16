@@ -1,0 +1,151 @@
+{% load i18n static %}
+{% load url from future %}
+<!DOCTYPE html>
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Feedjack" />
+    <meta name="generator" content="Feedjack">
+    
+    <title>{% block title %}{{ site.title }}{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{% static "css/normalize.css" %}" />
+    <link rel="stylesheet" href="{% static "css/foundation.css" %}" />
+    <link rel="stylesheet" href="{% static "css/app.css" %}" />
+    
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{% url "feed-rss" %}" />
+    {% block extrastyle %}{% endblock %}
+    {% block extrahead %}{% endblock %}
+    
+    <script src="{% static "js/vendor/custom.modernizr.js" %}"></script>
+    
+    {% block js %}{% endblock %} 
+</head>
+
+<body>
+
+  <div style="-webkit-transform: rotate(-90deg); writing-mode: lr-tb; position:fixed; white-space: nowrap; left:-2em; top:3em;">
+  <a href="#" class="button secondary" data-dropdown="feedlist">{% trans "Feed List" %}</a>
+  </div>
+  <div id="feedlist" class="f-dropdown content" data-dropdown-content>
+  list of feeds
+  </div>
+
+  <div class="large-8 large-centered columns">
+    <div class="row">
+        <div class="columns panel">
+            <h1><a href="{% url "landing" %}">{{ site.name }}</a></h1>
+            {% blocktrans %}
+            A <a href="http://www.feedjack.org/" class="love_feedjack" title="Feedjack Powered">Feedjack</a> Planet powered web based Feedreader
+            {% endblocktrans %}
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <ul class="button-group even-4">
+              <li>
+                    {% if user.is_authenticated %}
+                       {% url "django.contrib.auth.views.logout" as logouturl %}
+                       <a href="{{ logouturl }}" class="button small secondary">{% trans "Logout" %} {{ user }}</a>
+                    {% else %}
+                       {% url "django.contrib.auth.views.login" as loginurl %}
+                       <a href="{{ loginurl }}" class="button small success">{% trans "Login" %}</a></li>
+                    {% endif %}
+              </li>
+              <li><a href="#" class="button small secondary dropdown" data-dropdown="postsincedrop">Posts since</a>{% spaceless %}
+                  <ul id="postsincedrop" class="f-dropdown" data-dropdown-content>
+                      <li style="width:100%;"><a href="/since/yesterday/">yesterday</a></li>
+                      <li style="width:100%;"><a href="/since/yesterday/asc/">(older posts first)</a></li>
+                      <li style="width:100%;"><a href="/since/last_week/">last week</a></li>
+                      <li style="width:100%;"><a href="/since/last_week/asc/">(older posts first)</a></li>
+                      <li style="width:100%;"><a href="/since/10daysago/">10 days ago</a></li>
+                      <li style="width:100%;"><a href="/since/10daysago/asc/">(older posts first)</a></li>
+                      <li style="width:100%;"><a href="/since/30daysago/">30 days ago</a></li>
+                      <li style="width:100%;"><a href="/since/30daysago/asc/">(older posts first)</a></li>
+                      {% if now %}
+                        <li style="width:100%;"><a href="/since/{{now}}/" title="open this now and refresh it later to see which posts are new">NOW</a></li>
+                        <li style="width:100%;"><a href="/since/{{now}}/asc/">(older posts first)</a></li>
+                      {% endif %}
+                  </ul>{% endspaceless %}
+              </li>
+              <li><a href="#" class="button small secondary dropdown" data-dropdown="peopledrop">People</a>
+
+                <div id="peopledrop" class="f-dropdown content" data-dropdown-content>
+                {% block sidebar_subscribers %}
+                    {% for group in subscriber_groups %}
+                        {% if group.subscriber_set %}
+                            <fieldset class="group">
+                                <legend class="groupname"><a href="/group/{{group.id}}/">{{group.name}}</a></legend>
+                                {% for feed in group.subscriber_set.all %}
+                                      <span><a class="nombre" href="/subscription/{{ feed.feed.id }}" title="{{ feed.feed.title }}">{{ feed.name }}</a> (<a href="{{ feed.feed.link }}">{% trans "website" %}</a>, <a href="{{ feed.feed.feed_url }}" {% if feed.feed.last_modified %}title="{% blocktrans with feed.feed.last_modified as last_modified %}feed (last modified: {{ last_modified }}){% endblocktrans %}"{% else %}title="{% trans "feed" %}"{% endif %}>{% trans "feed" %}</a>)</span>&nbsp;&nbsp;&nbsp;<!-- FIXME -->
+                                {% endfor %}
+                            </fieldset>
+                        {% endif %}
+                    {% endfor %}
+                {% endblock%}
+                </div>
+              </li>
+              <li><span class="button small secondary">
+                    {% trans "Last update" %}: <b>{{ last_modified|date:"l, d. F Y, G:i:s" }}</b>
+                    {% comment %}TODO: num feeds, num posts, maybe num users{% endcomment %}
+                  </span>
+              </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="columns">
+            {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                <p>{{ message|linebreaks }}</p>
+            </li>   
+                {% endfor %}
+            </ul>   
+            <!--<script>
+                jQuery("ul.messages li").hide();
+                jQuery("ul.messages").children("li").each(function(i, e){
+                    jQuery(e).fadeIn(2000);
+                });
+            </script>-->
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+  </div>
+ </div>
+  <script>
+  document.write('<script src=' +
+  ('__proto__' in {} ? 'js/vendor/zepto' : 'js/vendor/jquery') +
+  '.js><\/script>')
+  </script>
+    <script src="{% static "js/foundation/foundation.js" %}"></script>
+  <script src="{% static "js/foundation/foundation.alerts.js" %}"></script>
+  <script src="{% static "js/foundation/foundation.clearing.js" %}"></script>
+  <script src="{% static "js/foundation/foundation.cookie.js" %}"></script>
+    <script src="{% static "js/foundation/foundation.dropdown.js" %}"></script>
+<!--  <script src="{% static "js/foundation/foundation.forms.js" %}"></script> -->
+<!--  <script src="{% static "js/foundation/foundation.joyride.js" %}"></script> -->
+<!--  <script src="{% static "js/foundation/foundation.magellan.js" %}"></script> -->
+<!--  <script src="{% static "js/foundation/foundation.orbit.js" %}"></script> -->
+<!--  <script src="{% static "js/foundation/foundation.placeholder.js" %}"></script> -->
+<!--  <script src="{% static "js/foundation/foundation.reveal.js" %}"></script> -->
+<!--  <script src="{% static "js/foundation/foundation.section.js" %}"></script> -->
+<!--  <script src="{% static "js/foundation/foundation.tooltips.js" %}"></script> -->
+<!--  <script src="{% static "js/foundation/foundation.topbar.js" %}"></script> -->
+<!--  <script src="{% static "js/foundation/foundation.interchange.js" %}"></script> -->
+  <script>
+    $(document).foundation();
+  </script>
+
+</body>
+</html>
